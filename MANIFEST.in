@@ -1,7 +1,8 @@
 recursive-exclude tests *.pyc *~
 recursive-exclude talon *.pyc *~
-include train.data
-include classifier
+include talon/signature/data/train.data
+include talon/signature/data/classifier
+include talon/signature/data/*.npy
 include LICENSE
 include MANIFEST.in
 include README.rst
