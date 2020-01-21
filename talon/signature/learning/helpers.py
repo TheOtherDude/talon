@@ -210,12 +210,16 @@ def many_capitalized_words(s):
 def has_signature(body, sender):
     '''Checks if the body has signature. Returns True or False.'''
     non_empty = [line for line in body.splitlines() if line.strip()]
+
+    # Some people split up their signatures with pipes instead of line breaks
+    non_empty = flatten_list(line.split(' | ') for line in non_empty)
+
     candidate = non_empty[-SIGNATURE_MAX_LINES:]
     upvotes = 0
     for line in candidate:
         # we check lines for sender's name, phone, email and url,
         # those signature lines don't take more then 27 lines
-        if len(line.strip()) > 110:
+        if len(line.strip()) > 27:
             continue
         elif contains_sender_names(sender)(line):
             return True

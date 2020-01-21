@@ -8,7 +8,7 @@ import numpy
 import regex as re
 from talon.signature.bruteforce import get_signature_candidate
 from talon.signature.learning.featurespace import features, build_pattern
-from talon.signature.learning.helpers import has_signature
+from talon.signature.learning.helpers import flatten_list, has_signature
 from talon.utils import get_delimiter
 
 log = logging.getLogger(__name__)
@@ -49,6 +49,9 @@ def extract(body, sender):
 
         if has_signature(body, sender):
             lines = body.splitlines()
+
+            # Some people split up their signatures with pipes instead of line breaks
+            lines = flatten_list(line.split(' | ') for line in lines)
 
             markers = _mark_lines(lines, sender)
             text, signature = _process_marked_lines(lines, markers)
